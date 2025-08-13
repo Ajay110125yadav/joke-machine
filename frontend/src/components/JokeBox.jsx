@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 const JokeBox = () => {
   const [joke, setJoke] = useState("Click the button to get a joke!");
@@ -9,15 +10,12 @@ const JokeBox = () => {
     setLoading(true);
     setError("");
     try {
-      const res = await fetch("http://localhost:5000/api/jokes");
-      if (!res.ok) throw new Error("Failed to fetch jokes");
-      const jokes = await res.json();
-
-      // Random joke select karo
-      const randomIndex = Math.floor(Math.random() * jokes.length);
-      setJoke(jokes[randomIndex].text);
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/joke`);
+      const data = response.data;
+      setJoke(`${data.setup} ${data.punchline}`);
     } catch (err) {
-      setError(err.message);
+      console.error(err);
+      setError("Failed to fetch joke. Check backend.");
     } finally {
       setLoading(false);
     }

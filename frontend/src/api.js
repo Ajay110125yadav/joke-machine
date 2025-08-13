@@ -1,10 +1,12 @@
+import React from "react";
+import JokeBox from "./components/JokeBox";
 
-import axios from 'axios';
-const api = axios.create({ baseUrl: 'http://localhost:5000/api' });
-api.interceptors.request.use(cfg => {
-  const token = localStorage.getItem('token');
-  if (token) cfg.headers.Authorization = `Bearer ${token}`;
-  return cfg;
-});
+function App() {
+  return (
+    <div>
+      <JokeBox />
+    </div>
+  );
+}
 
-export default api;
+export default App;
